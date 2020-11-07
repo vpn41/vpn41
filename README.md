@@ -126,7 +126,7 @@ pyinstaller --add-data templates/:templates/ --add-data static/:static/ --add-da
 # Build web service with reverse proxy
  
 To run your own service you need to obtain SSL Encrypt certificate via `certbot` and 
-put archived `/etc/certbot` folder to `cd/www/certbot/etc.letsencrypt.local.tar.gz`. 
+put archived `/etc/letsencrypt` folder to `cd/www/certbot/etc.letsencrypt.local.tar.gz`. 
 
 Inside `cd/www` run `docker-compose build && docker compose up -d`. 
 Delivering containers to the target system is on you.   
