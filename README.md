@@ -71,9 +71,9 @@ The result can be one of the following.
 
 ```json
 {"status": "pending"}
-{"status": "completed", "ok": True}
-{"status": "completed", "ok": False}
-{"status": "completed", "ok": True, "keys_file_url": "/keys/"}
+{"status": "completed", "ok": "true"}
+{"status": "completed", "ok": "false"}
+{"status": "completed", "ok": "true", "keys_file_url": "/keys/"}
 ```
 
 1. The first one indicates the setup is in progress.
