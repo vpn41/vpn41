@@ -1,0 +1,53 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+  <meta charset="utf-8">
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  {% block head %}
+  <title>{% block title %}{% endblock %}</title>
+  <meta name="description" content="Setup your own VPN">
+  {% endblock %}
+  <meta name="author" content="">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="keywords" content="vpn,own vpn,setup vpn,config vpn,best vpn,my vpn,myvpn,vpnforme,vpn for me,vpn config automation">
+
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
+  <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.png') }}" />
+
+  <link href="{{ url_for('static', filename='js/lib/nanogallery2/css/nanogallery2.min.css') }}" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='lib/primer-precompiled/dist/primer-tooltips.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='lib/bootstrap/dist/css/bootstrap.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='lib/alertify-js/build/css/alertify.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='lib/alertify-js/build/css/themes/default.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+  {% block head_include %}{% endblock %}
+  {% include "blocks/gdpr.html" %}
+</head>
+
+<body onload="onLoad()">
+    <div id="main" role="main">
+        {% block main %}{% endblock %}
+    </div>
+
+  <script src="{{ url_for('static', filename='lib/jquery/dist/jquery.min.js') }}"></script>
+  <script defer src="{{ url_for('static', filename='js/plugins.js') }}"></script>
+  <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+  <script>
+    function onLoad() {
+      $('body').hide().css('visibility', 'visible').fadeIn('slow', function() {
+          $('html').css('background', 'none');
+      });
+    }
+  </script>
+
+  {% block scripts %}{% endblock %}
+  <!-- end scripts-->
+
+  {% include "blocks/google-analytics.html" %}
+</body>
+</html>

@@ -1,0 +1,25 @@
+- hosts: all
+
+  tasks:
+  - name: Copy vpn setup files
+    copy:
+      src: ../remote/
+      dest: ~/remote/
+      mode: preserve
+
+  - name: Execute server setup script
+    shell: './setup-multiple-clients.sh 5 {{ platform }} {{ server_port }}'
+    args:
+      chdir: ~/remote/
+
+  - name: Remove remote scripts
+    file:
+      path: ~/remote
+      state: absent
+
+  - name: Fetch keys
+    fetch:
+      src: '{{ ansible_env.HOME }}/myvpn.zip'
+      dest: /tmp/fetched
+    when: fetch_keys|bool
+

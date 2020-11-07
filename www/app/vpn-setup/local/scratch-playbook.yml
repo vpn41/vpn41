@@ -1,0 +1,43 @@
+- hosts: all
+
+
+  tasks:
+
+  - name: Check if swap exists
+    shell: swapon
+    register: swapon_result
+    changed_when: False
+
+  - name: Create swap file
+    shell: fallocate -l 2G /swapfile && chmod 600 /swapfile && mkswap /swapfile && swapon /swapfile && (echo '/swapfile none swap sw 0 0' | tee -a /etc/fstab)
+    when: not swapon_result.stdout
+
+  - name: Add docker-ce repo key
+    apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      validate_certs: no
+      state: present
+
+  - name: Add docker-ce repo url
+    apt_repository:
+      repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+      state: present
+
+  - name: Install docker-ce
+    apt: 
+      name: docker-ce=5:19.03.12~3-0~ubuntu-focal
+      state: present
+
+  - name: Install zip archiver
+    apt:
+      name: zip
+      state: present
+
+  - name: Install docker-compose
+    get_url:
+      url: https://github.com/docker/compose/releases/download/1.26.2/docker-compose-Linux-x86_64
+      validate_certs: no
+      dest: /usr/local/bin/docker-compose
+      mode: u=rwx,g=rx,o=rx
+      force: yes
+

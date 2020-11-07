@@ -1,0 +1,79 @@
+/* Radio button styles */
+.radio-group .radio-container {
+    margin-left: 1em;
+    margin-bottom: 10px;
+    display: inline-block;
+    color: #828282;
+    /*--font-family: "Trueno Lt";*/
+    font-size: 1em;
+    text-align: left;
+    position: relative;
+    padding-left: 35px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.radio-group .radio-container:first-of-type {
+    margin-left: 0;
+}
+
+/* Hide the browser's default radio button */
+.radio-group .radio-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Create a custom radio button */
+.radio-group .radio-checkmark {
+    position: absolute;
+    top: 0px;
+    left: 0;
+    height: 24px;
+    width: 24px;
+    background-color: #eee;
+    border-radius: 50%;
+
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    -o-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+}
+
+/* On mouse-over, add a grey background color */
+.radio-group .radio-container:hover input ~ .radio-checkmark {
+    background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.radio-group .radio-container input:checked ~ .radio-checkmark {
+    /*background-color: #10bdff;*/
+    background-color: #0096ff;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.radio-group .radio-checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radio-group .radio-container input:checked ~ .radio-checkmark:after {
+    display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radio-group .radio-container .radio-checkmark:after {
+    top: 8px;
+    left: 8px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+}

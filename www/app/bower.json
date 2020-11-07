@@ -1,0 +1,23 @@
+{
+  "name": "myvpn",
+  "authors": [
+    "4xy <asdf@asdf.asdf>"
+  ],
+  "description": "VPN automate setup service",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "alertify-js": "^1.13.1",
+    "mobile-detect": "hgoebl/mobile-detect.js#^1.4.4",
+    "jquery": "1.11.1"
+  }
+}

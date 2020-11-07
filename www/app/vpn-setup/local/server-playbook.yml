@@ -1,0 +1,19 @@
+- hosts: all
+
+  tasks:
+
+  - name: Copy vpn setup scripts to remote
+    copy:
+      src: ../remote/
+      dest: ~/remote/
+      mode: preserve
+      
+  - name: Execute server setup script
+    shell: './setup-server-vpn.sh {{ hostname }} {{ server_port }}'
+    args:
+      chdir: ~/remote/
+
+  - name: Remove remote scripts
+    file:
+      path: ~/remote
+      state: absent

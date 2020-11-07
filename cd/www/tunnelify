@@ -1,0 +1,27 @@
+#!/bin/bash
+
+function finish {
+  kill ${SSH_TUNNEL_PID}
+}
+
+trap finish EXIT
+
+REMOTE_HOST="${1}"
+shift
+CMD="${@}"
+LOCAL_HOST=localhost
+LOCAL_PORT=12345
+ENDPOINT="${LOCAL_HOST}:${LOCAL_PORT}"
+export DOCKER_HOST=tcp://${ENDPOINT}
+
+ssh -o "ExitOnForwardFailure yes" -o "PreferredAuthentications publickey" -nNTL "${ENDPOINT}:/var/run/docker.sock" ${REMOTE_HOST} &
+SSH_TUNNEL_PID="${!}"
+
+while ! nc -z localhost 12345; do   
+  sleep 0.1 # wait for 1/10 of the second before check again
+done
+
+unset DOCKER_TLS_VERIFY
+unset DOCKER_CERT_PATH
+${CMD}
+

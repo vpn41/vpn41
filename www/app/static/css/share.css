@@ -1,0 +1,94 @@
+.common-input {
+    height: 3em;
+    background-color: #fff;
+    padding-left: 15px;
+    padding-right: 15px;
+    color: #828282;
+    border: solid 1px #828282;
+    font-size: 1em;
+    outline: none;
+  border-radius: 0;
+}
+
+.common-button {
+    /*font-family: Bender;*/
+    font-size: 20pt;
+    background-color: white;
+    display: inline-block;
+    padding: 8px 16px;
+    color: #828282;
+    border: solid 1px #828282;
+    /*font-size: 1.4em;*/
+    min-width: 150px;
+    outline: none;
+}
+
+.common-button:visited {
+    text-decoration: none;
+    color: #828282;
+}
+
+.common-button:hover {
+    background-color: #0096ff;
+    color: white;
+    border: solid 1px #0096ff;
+    /*color: white;*/
+    /*border: solid 1px #10bdff;*/
+    /*background-color: #10bdff;*/
+}
+
+.transition-all {
+   transition: all 0.2s ease-in;
+   -o-transition: all 0.2s ease-in;
+   -moz-transition: all 0.2s ease-in;
+   -webkit-transition: all 0.2s ease-in;
+}
+
+.void-margin {
+    margin: 0 !important;
+}
+
+.margin-top-10px {
+    margin-top: 10px;
+}
+
+.margin-bottom-20px {
+    margin-bottom: 20px;
+}
+
+.float-right {
+  float: right;
+}
+
+.float-left {
+  float: left;
+}
+
+.float-clear {
+  clear: both;
+}
+
+.hint {
+    position: absolute;
+    right: 0;
+    top: -2px;
+    opacity: 0.5;
+    /*color: #10bdff;*/
+    color: #0096ff;
+}
+
+.alt-hint {
+    display: inline-block;
+    opacity: 0.5;
+    /*color: #10bdff;*/
+    color: #0096ff;
+}
+
+.alt-hint:hover,
+.hint:hover {
+    opacity: 1;
+}
+
+.tooltipped-align-right::after {
+    text-align: right;
+}
