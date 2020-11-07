@@ -24,7 +24,7 @@ Now open browser and enter the `http://localhost:8080/`.
 Python 3.6+, ansible and sshpass are required. 
 
 ```bash
-apt update && apt install -y sshpass && apt install -y ansible
+apt update && apt install -y sshpass ansible
 git clone https://github.com/vpn41/vpn41.git
 cd vpn41/www/app
 ./app
@@ -57,10 +57,10 @@ Run `pytest` in the project root or app folder or `./app test`.
 
 The parameters are self descriptive 
 
-`ip-address` - Target host ip address
-`ssh-user` - For now only `root` is allowed
-`ssh-password` - Target host ssh password for `root` account
-`first-setup` - Whether setup server and client or just client
+`ip-address` - Target host ip address  
+`ssh-user` - For now only `root` is allowed  
+`ssh-password` - Target host ssh password for `root` account  
+`first-setup` - Whether setup server and client or just client  
 `download-keys` - Whether download keys or not from the target host
 
 This will set cookie `session` if not provided. This should be maintained in subsequent calls to have consistent results.
@@ -70,10 +70,10 @@ This will set cookie `session` if not provided. This should be maintained in sub
 The result can be one of the following.
 
 ```json
-{'status': 'pending'}
-{'status': 'completed', 'ok': True}
-{'status': 'completed', 'ok': False}
-{'status': 'completed', 'ok': True, 'keys_file_url': '/keys/'}
+{"status": "pending"}
+{"status": "completed", "ok": True}
+{"status": "completed", "ok": False}
+{"status": "completed", "ok": True, "keys_file_url": "/keys/"}
 ```
 
 1. The first one indicates the setup is in progress.
@@ -94,11 +94,11 @@ local and remote scripts. Use scripts from `local` folder.
 
 For bunch setup using ansible scripts directly makes things easy like using ssh key pair authentication. 
 
-`scratch-setup.sh HOSTNAME PASSWORD` - Installs prerequisites like docker and related stuff.
-`server-setup.sh HOSTNAME PASSWORD SERVER_PORT` - Setup the OpenVPN server.
+`scratch-setup.sh HOSTNAME PASSWORD` - Installs prerequisites like docker and related stuff.  
+`server-setup.sh HOSTNAME PASSWORD SERVER_PORT` - Setup the OpenVPN server.  
 `client-setup.sh HOSTNAME PASSWORD FETCH_KEYS PLATFORM` - Setup 5 OpenVPN client keys.
 
-`FETCH_KEYS` - is ansible compatible boolean type like strings `true`, `false`, `yes`, `no`. Keys are fetched to `/tmp/fetched`.
+`FETCH_KEYS` - is ansible compatible boolean type like strings `true`, `false`, `yes`, `no`. Keys are fetched to `/tmp/fetched`.  
 `PLATFORM` - `linux` or whatever.
 
 # Build an executable 

@@ -7,7 +7,7 @@ MAINTAINER vpn4.one
 
 RUN echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main" > /etc/apt/sources.list.d/ansible.list
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
-RUN apt update && apt install -y sshpass && apt install -y ansible
+RUN apt update && apt install -y sshpass ansible
 
 COPY app /opt/vpn4one/
 WORKDIR /opt/vpn4one
