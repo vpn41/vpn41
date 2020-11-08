@@ -19,7 +19,7 @@ docker-compose up vpn4one_www_site
 
 Now open browser and enter the `http://localhost:8080/`.
 
-## Run natively on your host 
+## Run directly on your host 
 
 Python 3.6+, ansible and sshpass are required. 
 
@@ -63,7 +63,7 @@ The parameters are self descriptive
 `first-setup` - Whether setup server and client or just client  
 `download-keys` - Whether download keys or not from the target host
 
-This will set cookie `session` if not provided. This should be maintained in subsequent calls to have consistent results.
+Response sets cookie `session` if not provided. This should be maintained in subsequent calls to have consistent results.
 
 ## GET https://vpn41.one/status/ - Get setup status
 
