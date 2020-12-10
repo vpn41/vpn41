@@ -12,7 +12,7 @@ The preferred way to use it is via docker container.
   
 ```bash
 git clone https://github.com/vpn41/vpn41.git
-cd vpn41/cd
+cd vpn41/cd/www
 docker-compose build vpn4one_www_site
 docker-compose up vpn4one_www_site
 ```
