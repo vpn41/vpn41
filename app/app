@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+THISDIR=$(dirname ${0})
+RUN_TESTS="${1}"
+VENV_DIR="${THISDIR}/.venv"
+
+if [ -d "${VENV_DIR}" ]; then
+    . "${VENV_DIR}/bin/activate"
+else
+   python3 -m venv "${VENV_DIR}"
+    . "${VENV_DIR}/bin/activate"
+   pip install -r requirements.txt
+fi 
+
+if [ "${RUN_TESTS}" = "test" ]; then
+  cd "${THISDIR}"
+  pytest
+  exit
+fi
+
+python3 "${THISDIR}/app.py" "${@}"

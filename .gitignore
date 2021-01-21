@@ -1,18 +1,15 @@
-.idea/
-flask_session/
+.idea
 .metadata/
 *.pyc
-.cache/
-.pytest_cache/
-.temp/
-backend/.deployment/apps
-__pycache__/
+.cache
+.pytest_cache
+.temp
+__pycache__
 strings.pot
 .venv
 .py36env
 .py38env
 *.local*
 app.spec
-**/build/
-**/dist/
+dist
 

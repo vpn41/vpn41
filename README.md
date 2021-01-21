@@ -12,9 +12,9 @@ The preferred way to use it is via docker container.
   
 ```bash
 git clone https://github.com/vpn41/vpn41.git
-cd vpn41/cd/www
-docker-compose build vpn4one_www_site
-docker-compose up vpn4one_www_site
+cd vpn41
+docker-compose build vpn41
+docker-compose up vpn41
 ```
 
 Now open browser and enter the `http://localhost:8080/`.
@@ -26,13 +26,13 @@ Python 3.6+, ansible and sshpass are required.
 ```bash
 apt update && apt install -y sshpass ansible
 git clone https://github.com/vpn41/vpn41.git
-cd vpn41/www/app
-./app
+vpn41/app/app
 ```
 
 or 
 
 ```bash
+cd vpn41/app
 python3 app.py
 ```
 
@@ -106,10 +106,8 @@ For bunch setup using ansible scripts directly makes things easy like using ssh 
 Run these. The binary is only available for Linux for now.
 
 ```bash
-cd www
-docker build . -f build.Dockerfile -t vpn41-build
-docker run -v $(pwd)/dist:/dist --rm vpn41-build
-dist/vpn41 
+vpn41/build-bin.sh
+dist/vpn41
 ```
 
 The result should be in the `./dist` subfolder.  
@@ -117,7 +115,7 @@ The result should be in the `./dist` subfolder.
 For other platforms you should build it's on your own via `pyinstaller`. By issuing following
  
 ```bash
-cd www/app
+cd vpn4/app
 . .venv/bin/activate
 pip install pyinstaller
 pyinstaller --add-data templates/:templates/ --add-data static/:static/ --add-data vpn-setup/:vpn-setup/ --onefile app.py --name vpn41
@@ -128,6 +126,6 @@ pyinstaller --add-data templates/:templates/ --add-data static/:static/ --add-da
 To run your own service you need to obtain SSL Encrypt certificate via `certbot` and 
 put archived `/etc/letsencrypt` folder to `cd/www/certbot/etc.letsencrypt.local.tar.gz`. 
 
-Inside `cd/www` run `docker-compose build && docker compose up -d`. 
+Inside `vpn41` folder run `docker-compose build && docker compose up -d`.
 Delivering containers to the target system is on you.   
 

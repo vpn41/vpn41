@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  vpn41:
+    build: .
+    container_name: vpn41
+    hostname: vpn41
+    restart: always
+    networks:
+      - vpn41
+    environment:
+      - VIRTUAL_HOST=vpn4.one,www.vpn4.one
+    ports: 
+      - "127.0.0.1:8080:8080"
+
+  nginx-proxy:
+    build: ./cd/nginx
+    container_name: nginx-proxy
+    restart: always
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    networks:
+      - vpn41
+    ports:
+      - 443:443
+      - 80:80
+    links:
+      - vpn41
+    volumes:
+      - /root/volumes/letsencrypt:/etc/letsencrypt
+      - /root/volumes/certbot/www:/var/www/certbot
+    depends_on:
+      - certbot
+
+  certbot:
+    build: ./cd/certbot
+    entrypoint: "/opt/certbot/entrypoint.sh"
+    volumes:
+      - /root/volumes/letsencrypt:/etc/letsencrypt
+      - /root/volumes/certbot/www:/var/www/certbot
+
+networks:
+  vpn41:
+
