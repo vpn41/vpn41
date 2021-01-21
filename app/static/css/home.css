@@ -977,7 +977,7 @@ strong {
 
 #wrong-ip-address-warn {
   font-size: 0.7em;
-  display: inline-block;
+  display: inline-block !important;
   font-style: italic;
   padding-left: 5px !important;
   background: rgba(255, 162, 0, 0.1);
