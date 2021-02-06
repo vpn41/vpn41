@@ -47,7 +47,7 @@ class MainRequestHandler:
         cur_locale = str(self.get_locale())
         return flask.render_template("home.html",
                                locale=cur_locale.capitalize(),
-                               title="Setup Own VPN Server | Vpn4.One",
+                               title="Setup Your Own VPN Server | Vpn4.One",
                                status=json.dumps(self.__status()))
 
 

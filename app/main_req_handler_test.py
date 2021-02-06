@@ -159,5 +159,5 @@ def test_index_get_must_setup_en_locale(f):
     assert session['locale'] == settings.EN_LOCALE
     render_template_mock.assert_called_with('home.html',
                                             locale=settings.EN_LOCALE.capitalize(),
-                                            title="Setup Own VPN Server | Vpn4.One",
+                                            title="Setup Your Own VPN Server | Vpn4.One",
                                             status=ANY)
