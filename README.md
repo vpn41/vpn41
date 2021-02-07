@@ -53,7 +53,7 @@ server and a server in your local network. Just enter the address of your server
 Run `pytest` in the project root or app folder or `./app test`.
 
 # API
-## POST https://vpn41.one/setup/ - Start setup 
+## POST https://vpn4.one/setup/ - Start setup 
 
 The parameters are self descriptive 
 
@@ -65,7 +65,7 @@ The parameters are self descriptive
 
 Response sets cookie `session` if not provided. This should be maintained in subsequent calls to have consistent results.
 
-## GET https://vpn41.one/status/ - Get setup status
+## GET https://vpn4.one/status/ - Get setup status
 
 The result can be one of the following.
 
@@ -81,9 +81,9 @@ The result can be one of the following.
 3. Failure
 4. Completed successfully with keys available via `keys_file_url`
 
-## DELETE https://vpn41.one/status/ - Dismiss the setup status and keys if present 
+## DELETE https://vpn4.one/status/ - Dismiss the setup status and keys if present 
 
-## GET https://vpn41.one/keys/ - Download keys
+## GET https://vpn4.one/keys/ - Download keys
 
 Returns 5 client keys in `.ovpn` format archived with `.zip`.   
 
@@ -115,7 +115,7 @@ The result should be in the `./dist` subfolder.
 For other platforms you should build it's on your own via `pyinstaller`. By issuing following
  
 ```bash
-cd vpn4/app
+cd vpn41/app
 . .venv/bin/activate
 pip install pyinstaller
 pyinstaller --add-data templates/:templates/ --add-data static/:static/ --add-data vpn-setup/:vpn-setup/ --onefile app.py --name vpn41
