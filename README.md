@@ -18,6 +18,8 @@ docker-compose up vpn41
 ```
 
 Now open browser and enter the `http://localhost:8080/`.
+To install `docker` follow this https://docs.docker.com/engine/install/ubuntu/#install-using-the-convenience-script. 
+For `docker-compose` look here https://docs.docker.com/compose/install/.
 
 ## Run directly on your host 
 
