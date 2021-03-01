@@ -11,9 +11,9 @@ services:
     ports:
       - "127.0.0.1:8080:8080"
 
-  nginx-proxy:
-    build: ./cd/nginx
-    container_name: nginx-proxy
+  web:
+    build: ./web
+    container_name: web
     restart: always
     networks:
       - vpn41
@@ -29,11 +29,11 @@ services:
       - vpn41
 
   certbot:
-    build: ./cd/certbot
+    build: ./certbot
     container_name: certbot
     entrypoint: "/opt/certbot/entrypoint.sh"
     depends_on:
-      - nginx-proxy
+      - web
     volumes:
       - /root/volumes/letsencrypt:/etc/letsencrypt
       - /root/volumes/certbot/www:/var/www/certbot
