@@ -32,6 +32,7 @@ services:
     build: ./certbot
     container_name: certbot
     entrypoint: "/opt/certbot/entrypoint.sh"
+    restart: always
     depends_on:
       - web
     volumes:
