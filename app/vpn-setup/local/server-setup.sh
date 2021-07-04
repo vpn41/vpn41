@@ -17,4 +17,6 @@ if [ -z "${PASSWORD}" ]; then
 fi 
 
 ansible-playbook "${SCRIPT_DIR}/server-playbook.yml" --extra-vars "hostname=${HOSTNAME} server_port=${PORT}" \
-    --extra-vars "ansible_user=${USER} ansible_password=${PASSWORD}" -i "${HOSTNAME}", -vv
+    --extra-vars "ansible_user=${USER} ansible_password=${PASSWORD}" \
+    --ssh-common-args "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
+    -i "${HOSTNAME}", -vv

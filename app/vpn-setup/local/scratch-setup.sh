@@ -15,4 +15,5 @@ if [ -z "${PASSWORD}" ]; then
     exit 1
 fi 
 
-ansible-playbook "${SCRIPT_DIR}/scratch-playbook.yml" --extra-vars "ansible_user=${USER} ansible_password=${PASSWORD}" -i "${HOSTNAME}", -vv
+ansible-playbook "${SCRIPT_DIR}/scratch-playbook.yml" --extra-vars "ansible_user=${USER} ansible_password=${PASSWORD}" \
+    --ssh-common-args "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" -i "${HOSTNAME}", -vv

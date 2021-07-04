@@ -32,4 +32,4 @@ fi
 
 
 ansible-playbook "${SCRIPT_DIR}/client-playbook.yml" --extra-vars "fetch_keys=${FETCH_KEYS} platform=${PLATFORM} server_port=${PORT}" \
-    --extra-vars "ansible_user=${USER} ansible_password=${PASSWORD}" -i "${HOSTNAME}", -vv
+    --extra-vars "ansible_user=${USER} ansible_password=${PASSWORD}" --ssh-common-args "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" -i "${HOSTNAME}", -vv
