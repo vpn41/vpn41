@@ -128,4 +128,4 @@ pyinstaller --add-data templates/:templates/ --add-data static/:static/ --add-da
 Correct virtual host `server_name` in `vpn41/cd/nginx/www.conf`.
 Inside `vpn41` folder run `docker-compose build && docker compose up -d`.
 Delivering containers to the target system is on you.
-SSL Let's Encrypt certificate obtained and renewed automatically when run on targent host.
+SSL Let's Encrypt certificate obtained and renewed automatically when run on target host.
