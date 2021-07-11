@@ -36,8 +36,8 @@
                 <ul class="header-menu">
                     <a href="#what-is-this"><li class="header-button">{{ _("What is this?") }}</li></a>
                     <a href="#setup-details"><li class="header-button">{{ _("Setup") }}</li></a>
-                    <a href="#after-setup"><li class="header-button">{{ _("After setup") }}</li></a>
                     <a href="#connect-to-vpn"><li class="header-button">{{ _("Connect to VPN") }}</li></a>
+                    <a href="#after-setup"><li class="header-button">{{ _("After setup") }}</li></a>
                     <a href="#donate"><li class="header-button">{{ _("Donate") }}</li></a>
                     <a class="github" href="https://github.com/vpn41/vpn41">{#<li></li>#}</a>
                 </ul>
@@ -121,6 +121,7 @@
     <div id="vultr-guidey"></div>
     <p class="note">
         {{ _('For now only <span class=\"pre\">root</span> user and Ubuntu 20.04 LTS is supported.') }}
+        {{ _('Your VPS should provide ssh access via 22 tcp port.') }}
         {{ _('Do not enter addresses that begin with 10, 172 or 192 these are local and service won\'t work.') }}
         {{ _('To setup your local server run the app on your localhost and enter the local server address there.') }}
         {{ _('Please for details see the manual on <a href="https://github.com/vpn41/vpn41">GitHub</a>.') }}
@@ -148,7 +149,7 @@
 
         <div class="row">
             <div class="col-lg-12">
-                <label for="ssh-password">{{ _('SSH Password') }}</label>
+                <label for="ssh-password">{{ _('SSH password') }}</label>
                 <input id="ssh-password" name="ssh-password" required class="common-input form-control transition-all" type="password" placeholder="{{ _('Root\'s user account SSH password to your VPS server') }}" />
             </div>
         </div>
@@ -210,6 +211,54 @@
   </div>
 </section>
 
+<section class="module content connect-to-vpn">
+    <div class="container">
+        <h2 id="connect-to-vpn">{{ _('Connect to VPN') }}</h2>
+        <p>
+            {{ _('Unpack your keys (<span class="pre">.ovpn</span> files) from archive you downloaded.
+            You can rename these files to anything meaningfull to make farther usage more comfortable.') }}
+        </p>
+
+        <p>
+            {{ _('<strong>Windows, MacOS, Android, iOS</strong>. Download the client <a href="https://openvpn.net/download-open-vpn/" target="_blank">here</a>.') }}
+            {{ _('In pictures below Windows is used. But OpenVPN client has the same interface for all platforms. So the process should be similar.') }}
+        </p>
+
+        <div id="ovpn-win-guide"></div>
+
+        <p>
+            {{ _('<strong>Linux</strong>. For Ubuntu/Debian based use.') }}
+            <pre>sudo apt install openvpn</pre>
+        </p>
+        <p>
+            {{ _('For Manjaro or other Arch based distro use.') }}
+            <pre>sudo pacman -S openvpn</pre>
+        </p>
+
+        <p>
+            {{ _('We assume the path to key is <span class="pre">/home/&lt;username&gt;/myvpn/mykey.ovpn</span>.') }}
+            {{ _('Add the following line to <span class="pre">/etc/rc.local</span> before <span class="pre">exit 0</span> statement.') }}
+            {{ _('To run it manually execute this line with <span class="pre">sudo</span>.') }}
+            <pre>openvpn --config /home/&lt;username&gt;/myvpn/mykey.ovpn --daemon</pre>
+        </p>
+
+        <p>
+            {{ _('To enable (if not yet) <span class="pre">rc.local</span> support on Ubuntu 20.04 LTS issue these.') }}
+            <pre>{ echo '#!/bin/sh -e'; echo 'exit 0'; } | sudo tee /etc/rc.local
+sudo systemctl enable rc-local</pre>
+        </p>
+
+        <p>
+            {{ _('On Manjaro.') }}
+            <pre>yay -S rc-local</pre>
+        </p>
+
+        <p>
+            {{ _('See <a href="https://wiki.archlinux.org/index.php/OpenVPN#The_update-resolv-conf_custom_script" target="_blank">this manual</a> to properly override DNS.') }}
+        </p>
+    </div>
+</section>
+
 <section class="module content after-setup">
     <div class="container">
         <h2 id="after-setup">{{ _("After setup") }}</h2>
@@ -261,54 +310,6 @@
         </p>
         <p>
             <pre>rm ~/.ssh/authorized_keys</pre>
-        </p>
-    </div>
-</section>
-
-<section class="module content connect-to-vpn">
-    <div class="container">
-        <h2 id="connect-to-vpn">{{ _('Connect to VPN') }}</h2>
-        <p>
-            {{ _('Unpack your keys (<span class="pre">.ovpn</span> files) from archive you downloaded.
-            You can rename these files to anything meaningfull to make farther usage more comfortable.') }}
-        </p>
-
-        <p>
-            {{ _('<strong>Windows, MacOS, Android, iOS</strong>. Download the client <a href="https://openvpn.net/download-open-vpn/" target="_blank">here</a>.') }}
-            {{ _('In pictures below Windows is used. But OpenVPN client has the same interface for all platforms. So the process should be similar.') }}
-        </p>
-
-        <div id="ovpn-win-guide"></div>
-
-        <p>
-            {{ _('<strong>Linux</strong>. For Ubuntu/Debian based use.') }}
-            <pre>sudo apt install openvpn</pre>
-        </p>
-        <p>
-            {{ _('For Manjaro or other Arch based distro use.') }}
-            <pre>sudo pacman -S openvpn</pre>
-        </p>
-
-        <p>
-            {{ _('We assume the path to key is <span class="pre">/home/&lt;username&gt;/myvpn/mykey.ovpn</span>.') }}
-            {{ _('Add the following line to <span class="pre">/etc/rc.local</span> before <span class="pre">exit 0</span> statement.') }}
-            {{ _('To run it manually execute this line with <span class="pre">sudo</span>.') }}
-            <pre>openvpn --config /home/&lt;username&gt;/myvpn/mykey.ovpn --daemon</pre>
-        </p>
-
-        <p>
-            {{ _('To enable (if not yet) <span class="pre">rc.local</span> support on Ubuntu 20.04 LTS issue these.') }}
-            <pre>{ echo '#!/bin/sh -e'; echo 'exit 0'; } | sudo tee /etc/rc.local
-sudo systemctl enable rc-local</pre>
-        </p>
-
-        <p>
-            {{ _('On Manjaro.') }}
-            <pre>yay -S rc-local</pre>
-        </p>
-
-        <p>
-            {{ _('See <a href="https://wiki.archlinux.org/index.php/OpenVPN#The_update-resolv-conf_custom_script" target="_blank">this manual</a> to properly override DNS.') }}
         </p>
     </div>
 </section>
@@ -369,8 +370,8 @@ sudo systemctl enable rc-local</pre>
             <ul>
                 <a href="#what-is-this"><li>{{ _("What is this?") }}</li></a>
                 <a href="#setup-details"><li>{{ _("Setup") }}</li></a>
-                <a href="#after-setup"><li>{{ _("After setup") }}</li></a>
                 <a href="#connect-to-vpn"><li>{{ _("Connect to VPN") }}</li></a>
+                <a href="#after-setup"><li>{{ _("After setup") }}</li></a>
                 <a href="#donate"><li>{{ _("Donate") }}</li></a>
             </ul>
         </div>
