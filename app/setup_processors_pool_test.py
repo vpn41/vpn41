@@ -12,83 +12,96 @@ KEYS = tuple(f'key{i}' for i in range(1, 4))
 
 
 @pytest.fixture
-def f():
-    class F:
-        SetupProcessorMock = create_autospec(SetupProcessor, spec_set=True)
-        processor_mocks = tuple(create_autospec(SetupProcessor, spec_set=True, instance=True) for _ in range(0, 3))
-        SetupProcessorMock.side_effect = processor_mocks
-        logger_mock = create_autospec(spec=Logger, spec_set=True, instance=True)
-        sut = SetupProcessorsPool(app_dir=APP_DIR, logger=logger_mock, setup_processor_class=SetupProcessorMock)
-
-        for k in KEYS:
-            sut.spawn(k, **PARAMS)
-    return F
+def logger_mock():
+    return create_autospec(spec=Logger, spec_set=True, instance=True)
 
 
-@pytest.mark.asyncio
-async def test_run_once_must_process_all(f):
-    assert f.sut.is_pending(KEYS[0])
-    assert len(f.sut.pending()) == 3
-    assert len(f.sut.completed()) == 0
-    assert tuple(f.sut.pending().keys()) == KEYS
+@pytest.fixture
+def setup_processor_mocks():
+    return tuple(create_autospec(SetupProcessor, spec_set=True, instance=True) for _ in range(0, 3))
 
-    await f.sut.run_once()
 
-    assert not f.sut.is_pending(KEYS[0])
-    assert len(f.sut.pending()) == 0
-    assert len(f.sut.completed()) == 3
-    assert tuple(f.sut.completed().keys()) == KEYS
+@pytest.fixture
+def setup_processor_class_mock(setup_processor_mocks):
+    mock = create_autospec(SetupProcessor, spec_set=True)
+    mock.side_effect = setup_processor_mocks
+    return mock
+
+
+@pytest.fixture
+def sut(logger_mock, setup_processor_class_mock):
+    sut = SetupProcessorsPool(app_dir=APP_DIR, logger=logger_mock, setup_processor_class=setup_processor_class_mock)
 
     for k in KEYS:
-        f.sut.completed()[k].run.assert_called_once_with()
+        sut.spawn(k, **PARAMS)
+
+    return sut
 
 
 @pytest.mark.asyncio
-async def test_run_once_must_process_all_regardless_of_exception(f):
-    f.processor_mocks[0].run.side_effect = RuntimeError()
+async def test_run_once_must_process_all(sut):
+    assert sut.is_pending(KEYS[0])
+    assert len(sut.pending()) == 3
+    assert len(sut.completed()) == 0
+    assert tuple(sut.pending().keys()) == KEYS
 
-    await f.sut.run_once()
+    await sut.run_once()
 
-    assert len(f.sut.pending()) == 0
-    assert len(f.sut.completed()) == 3
-    assert tuple(f.sut.completed().keys()) == KEYS
-
-    f.logger_mock.error.assert_called_once_with(ANY)
+    assert not sut.is_pending(KEYS[0])
+    assert len(sut.pending()) == 0
+    assert len(sut.completed()) == 3
+    assert tuple(sut.completed().keys()) == KEYS
 
     for k in KEYS:
-        f.sut.completed()[k].run.assert_called_once_with()
+        sut.completed()[k].run.assert_called_once_with()
 
 
 @pytest.mark.asyncio
-async def test_get_must_return_none_if_no_key_found(f):
-    f.sut.pending().clear()
+async def test_run_once_must_process_all_regardless_of_exception(sut, setup_processor_mocks, logger_mock):
+    setup_processor_mocks[0].run.side_effect = RuntimeError()
 
-    assert f.sut.get(KEYS[0]) == None
-    await f.sut.run_once()
-    assert f.sut.get(KEYS[0]) == None
+    await sut.run_once()
+
+    assert len(sut.pending()) == 0
+    assert len(sut.completed()) == 3
+    assert tuple(sut.completed().keys()) == KEYS
+
+    logger_mock.error.assert_called_once_with(ANY)
+
+    for k in KEYS:
+        sut.completed()[k].run.assert_called_once_with()
 
 
 @pytest.mark.asyncio
-async def test_get_must_return_object_if_key_found(f):
-    assert f.sut.get(KEYS[0]) is f.sut.pending()[KEYS[0]]
-    await f.sut.run_once()
-    assert f.sut.get(KEYS[0]) is f.sut.completed()[KEYS[0]]
+async def test_get_must_return_none_if_no_key_found(sut):
+    sut.pending().clear()
+
+    assert sut.get(KEYS[0]) == None
+    await sut.run_once()
+    assert sut.get(KEYS[0]) == None
 
 
-def test_spawn_must_raise_if_setup_pending(f):
+@pytest.mark.asyncio
+async def test_get_must_return_object_if_key_found(sut):
+    assert sut.get(KEYS[0]) is sut.pending()[KEYS[0]]
+    await sut.run_once()
+    assert sut.get(KEYS[0]) is sut.completed()[KEYS[0]]
+
+
+def test_spawn_must_raise_if_setup_pending(sut):
     with pytest.raises(AlreadyInProgressError):
-        f.sut.spawn(key=KEYS[0])
+        sut.spawn(key=KEYS[0])
 
 
 @pytest.mark.asyncio
-async def test_spawn_must_clear_completed_processor(f):
-    await f.sut.run_once()
-    assert len(f.sut.completed()) == 3
-    assert tuple(f.sut.completed().keys()) == KEYS
+async def test_spawn_must_clear_completed_processor(sut, setup_processor_class_mock):
+    await sut.run_once()
+    assert len(sut.completed()) == 3
+    assert tuple(sut.completed().keys()) == KEYS
 
-    f.SetupProcessorMock.return_value = create_autospec(SetupProcessor, spec_set=True, instance=True)
-    f.SetupProcessorMock.side_effect = None
+    setup_processor_class_mock.return_value = create_autospec(SetupProcessor, spec_set=True, instance=True)
+    setup_processor_class_mock.side_effect = None
 
-    f.sut.spawn(key=KEYS[0])
-    assert len(f.sut.completed()) == 2
-    assert KEYS[0] not in f.sut.completed()
+    sut.spawn(key=KEYS[0])
+    assert len(sut.completed()) == 2
+    assert KEYS[0] not in sut.completed()
