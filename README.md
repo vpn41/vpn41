@@ -65,7 +65,7 @@ The parameters are self descriptive
 `first-setup` - Whether setup server and client or just client  
 `download-keys` - Whether download keys or not from the target host
 
-Response sets cookie `session` if not provided. This should be maintained in subsequent calls to have consistent results.
+Response sets cookie `session`. This should be maintained in subsequent calls to have consistent results.
 
 ## GET https://vpn4.one/status/ - Get setup status
 
