@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+
+
+THIS_DIR=$(realpath "$(dirname "${0}")")
+IMAGE_NAME=vpn41/vpn41
+PASSWD_FROM_STDIN=0
+TAG=0.0.3
+
+
+usage() {
+cat << EOF
+Push vpn41 docker image to public repo
+
+Usage:
+    ${0} [OPTIONS] [-]
+
+Options:
+    --help          Show this help message.
+
+To make script password from stdin specify '-'.
+EOF
+}
+
+
+while :; do 
+    case "${1}" in
+        -h|--help)
+            usage
+            exit
+            ;;
+        -)
+            PASSWD_FROM_STDIN=1
+            ;;
+        --tag)
+            shift
+            TAG="${1}"
+            ;;
+        *)
+            break
+    esac
+    
+    shift
+done
+
+
+set -eu
+
+DOCKER_USERNAME=${DOCKER_USERNAME:-"vpn41"}
+
+if [ "${PASSWD_FROM_STDIN}" -eq 0 ]; then
+    docker login -u "${DOCKER_USERNAME}" docker.io
+else
+    read PASSWD
+    echo ${PASSWD} | docker login -u "${DOCKER_USERNAME}" docker.io --password-stdin
+fi
+
+docker push ${IMAGE_NAME}:${TAG}
+docker push ${IMAGE_NAME}:latest

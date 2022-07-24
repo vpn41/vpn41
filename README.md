@@ -8,8 +8,24 @@ This is the source code repo of https://vpn4.one/ service.
 
 ## Run in docker   
 
-The preferred way to use it is via docker container.  
-  
+The preferred way to use the app is via docker container.
+
+```bash
+docker pull vpn41/vpn41
+docker run --rm -p 8080:8080 vpn41/vpn41
+```
+
+Or build from source
+
+```bash
+git clone https://github.com/vpn41/vpn41.git
+cd vpn41
+./build
+docker run --rm -p 8080:8080 vpn41/vpn41
+```
+
+Or with docker compose
+
 ```bash
 git clone https://github.com/vpn41/vpn41.git
 cd vpn41
@@ -17,9 +33,18 @@ docker-compose build vpn41
 docker-compose up vpn41
 ```
 
-Now open browser and enter the `http://localhost:8080/`.
-To install `docker` follow this https://docs.docker.com/engine/install/ubuntu/#install-using-the-convenience-script. 
-For `docker-compose` look here https://docs.docker.com/compose/install/.
+Now open browser and enter the `http://localhost:8080/` to the address bar. Here you can setup both remote cloud
+server and a server in your local network. Just enter the address of your server e.g. `192.168.0.7` in case of local network.
+
+---
+**NOTE**
+
+The server being setup must provide root ssh access on 22 port. The only Ubuntu 20.04 LTS is now supported.
+
+---
+
+The easiest way to have Docker on Linux is described [here](https://docs.docker.com/engine/install/ubuntu/#install-using-the-convenience-script).
+For `docker-compose` [look here](https://docs.docker.com/compose/install/).
 
 ## Run directly on your host 
 
@@ -28,31 +53,13 @@ Python 3.6+, ansible and sshpass are required.
 ```bash
 apt update && apt install -y sshpass ansible
 git clone https://github.com/vpn41/vpn41.git
-vpn41/app/app
+cd vpn41
+app/app
 ```
-
-or 
-
-```bash
-cd vpn41/app
-python3 app.py
-```
-
-But former installs virtual env and dependencies automatically. On Windows starts but setup will fail. 
-
----
-**NOTE**
-
-The server needs to provide root ssh access on 22 port. The only Ubuntu 20.04 LTS is now supported. 
-
----
-
-After that open your browser and enter the `http://localhost:8080/` to the address bar. Here you can setup both remote cloud
-server and a server in your local network. Just enter the address of your server e.g. `192.168.0.7` in case of local network. 
 
 # Run tests
 
-Run `pytest` in the project root or app folder or `./app test`.
+Run `vpn41/app/app test` or `pytest` in the project root or app folder but be aware about dependencies in latter case.
 
 # API
 ## POST https://vpn4.one/setup/ - Start setup 
@@ -105,27 +112,17 @@ For bunch setup using ansible scripts directly makes things easy like using ssh 
 
 # Build an executable 
 
-Run these. The binary is only available for Linux for now.
+The binary is only available for Linux.
 
 ```bash
-vpn41/build-bin.sh
+cd vpn41
+build --binary
 dist/vpn41
-```
-
-The result should be in the `./dist` subfolder.  
-
-For other platforms you should build it's on your own via `pyinstaller`. By issuing following
- 
-```bash
-cd vpn41/app
-. .venv/bin/activate
-pip install pyinstaller
-pyinstaller --add-data templates/:templates/ --add-data static/:static/ --add-data vpn-setup/:vpn-setup/ --onefile app.py --name vpn41
 ```
 
 # Build web service with reverse proxy
  
-Correct virtual host `server_name` in `vpn41/cd/nginx/www.conf`.
+Correct virtual host `server_name` in `vpn41/web/www.conf`.
 Inside `vpn41` folder run `docker-compose build && docker compose up -d`.
 Delivering containers to the target system is on you.
 SSL Let's Encrypt certificate obtained and renewed automatically when run on target host.

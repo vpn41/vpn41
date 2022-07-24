@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+
+SCRIPT_DIR=$(realpath "$(dirname "${0}")")
+IMAGE_NAME=vpn41/vpn41
+TAG=0.0.3
+
+
+usage() {
+cat << EOF
+Build vpn41 docker image or application binary
+
+Usage:
+    ${0} [OPTIONS]
+
+Options:
+    --binary     Build application binary file.
+    --help       Show this help message.
+EOF
+}
+
+while :; do
+    case "${1}" in
+        -h|--help)
+            usage
+            exit
+            ;;
+        --binary)
+            docker build "${SCRIPT_DIR}" -f "${SCRIPT_DIR}/build-bin.Dockerfile" -t vpn41-build
+            docker run -v $(pwd)/dist:/dist --rm vpn41-build
+            echo Done
+            exit
+            ;;
+        --tag)
+            shift
+            TAG="${1}"
+            ;;
+        '')
+            break
+            ;;
+        *)
+            echo Unrecognized option
+            exit
+    esac
+
+    shift
+done
+
+
+set -eu
+
+docker build -t ${IMAGE_NAME}:${TAG} .
+docker tag ${IMAGE_NAME}:${TAG} ${IMAGE_NAME}:latest
