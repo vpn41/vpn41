@@ -114,7 +114,7 @@ The binary is only available for Linux.
 
 ```bash
 cd vpn41
-build --binary
+./build --binary
 dist/vpn41
 ```
 
