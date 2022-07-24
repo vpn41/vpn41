@@ -4,9 +4,7 @@
 
 This is the source code repo of https://vpn4.one/ service. 
 
-# Run app from sources
-
-## Run in docker   
+# Run in docker
 
 The preferred way to use the app is via docker container.
 
@@ -46,7 +44,7 @@ The server being setup must provide root ssh access on 22 port. The only Ubuntu 
 The easiest way to have Docker on Linux is described [here](https://docs.docker.com/engine/install/ubuntu/#install-using-the-convenience-script).
 For `docker-compose` [look here](https://docs.docker.com/compose/install/).
 
-## Run directly on your host 
+# Run directly on your host
 
 Python 3.6+, ansible and sshpass are required. 
 
