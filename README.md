@@ -9,7 +9,6 @@ This is the source code repo of https://vpn4.one/ service.
 The preferred way to use the app is via docker container.
 
 ```bash
-docker pull vpn41/vpn41
 docker run --rm -p 8080:8080 vpn41/vpn41
 ```
 
